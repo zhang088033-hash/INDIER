@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>INDIER Creator | 模块化AI音乐创作台</title>
+  <meta name="description" content="INDIER Creator 是面向AI音乐创作的模块化硬件控制台。旋钮、推子、按键和屏幕共同完成从灵感到歌曲的闭环。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">INDIER</a>
+    <nav class="nav" aria-label="主导航">
+      <a href="#modules">模块</a>
+      <a href="#precision">工艺</a>
+      <a href="#create">创作</a>
+      <a href="#sets">预购</a>
+    </nav>
+    <a class="header-action" href="#sets">立即预购</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-stage">
+        <div class="hero-copy">
+          <p class="eyebrow">INDIER Creator 01</p>
+          <h1>按下，就是创作。</h1>
+          <p class="lead">一套为AI音乐创作设计的模块化控制台。用真实旋钮、推子、按键和屏幕，把"写Prompt"变成一次可以上手的创作动作。</p>
+          <div class="hero-actions">
+            <button class="button button-primary" id="playHero" type="button">
+              <span class="play-mark" aria-hidden="true"></span>
+              试听样曲
+            </button>
+            <a class="button button-secondary" href="#modules">探索模块</a>
+          </div>
+        </div>
+        <figure class="hero-product">
+          <img src="hero.jpeg" alt="INDIER Creator 模块化音乐创作控制台">
+        </figure>
+      </div>
+      <div class="audio-dock" aria-label="样曲播放器">
+        <div>
+          <span>Demo Track</span>
+          <strong>Co-created with INDIER</strong>
+        </div>
+        <audio id="demoAudio" controls preload="metadata" src="demo-song.mp3"></audio>
+      </div>
+    </section>
+
+    <section class="signal-strip" aria-label="核心卖点">
+      <div><strong>4+</strong><span>硬件模块</span></div>
+      <div><strong>磁吸</strong><span>弹簧触点连接器</span></div>
+      <div><strong>MIDI</strong><span>外部控制层</span></div>
+      <div><strong>5步</strong><span>歌曲创作流程</span></div>
+    </section>
+
+    <section id="modules" class="section modules-section">
+      <div class="section-head">
+        <p class="eyebrow">模块化系统</p>
+        <h2>从Core开始，添加你的音乐需要的控制。</h2>
+      </div>
+      <figure class="product-wall">
+        <img src="modules.jpeg" alt="INDIER 的 Core、Spin、Slide、Key 模块">
+      </figure>
+      <div class="module-specs">
+        <article>
+          <span>01</span>
+          <h3>Core Display</h3>
+          <p>竖屏主控，显示波形、生成状态、版本记录和当前参数。</p>
+          <dl><dt>定位</dt><dd>大脑 / 时间线</dd><dt>表面</dt><dd>玻璃 + 铝合金边框</dd></dl>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Spin</h3>
+          <p>带光环反馈的旋钮模块，用来控制风格、情绪、节奏和音色权重。</p>
+          <dl><dt>控制</dt><dd>编码器 + RGB灯环</dd><dt>手感</dt><dd>连续旋转</dd></dl>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Slide</h3>
+          <p>用于起伏能量、混音比例和生成强度的长行程手动滑杆。</p>
+          <dl><dt>控制</dt><dd>推子 + LED刻度</dd><dt>用途</dt><dd>能量 / 混音</dd></dl>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>Key</h3>
+          <p>热插拔机械按键触发 Jam、Retry、Release，支持换轴定制手感。</p>
+          <dl><dt>输入</dt><dd>触发 / 快捷</dd><dt>动作</dt><dd>Jam / Retry</dd></dl>
+        </article>
+      </div>
+    </section>
+
+    <section id="precision" class="section precision-section">
+      <div class="precision-copy">
+        <p class="eyebrow">精密与力量</p>
+        <h2>连接器不能像玩具，模块缝隙也不能像拼图。</h2>
+        <p>INDIER 的视觉标准是"精密控制台"：深色阳极氧化铝合金质感、玻璃面板、金色触点、低缝隙磁吸模块连接、霓虹状态灯反馈。网页要卖的是硬件可信度，不是AI口号。</p>
+      </div>
+      <div class="connector-board" aria-label="模块连接结构示意">
+        <div class="rail top"></div>
+        <div class="device one">
+          <span>Core</span>
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="device two">
+          <span>Spin</span>
+          <b></b>
+        </div>
+        <div class="device three">
+          <span>Slide</span>
+          <em></em>
+        </div>
+        <div class="rail bottom"></div>
+      </div>
+    </section>
+
+    <section id="create" class="section studio-section">
+      <div class="studio-panel">
+        <div class="studio-screen">
+          <div class="screen-bar">
+            <span>INDIER Studio</span>
+            <strong>Lo-Fi Night</strong>
+          </div>
+          <div class="waveform" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+          <div class="param"><span>风格</span><b id="pVibe">Analog Lo-Fi</b></div>
+          <div class="param"><span>情绪</span><b id="pMood">72%</b></div>
+          <div class="param"><span>节奏</span><b id="pPulse">86 BPM</b></div>
+          <div class="sc-knobs">
+            <label>风格<input type="range" id="kVibe" min="0" max="100" value="40"></label>
+            <label>能量<input type="range" id="kEnergy" min="0" max="100" value="55"></label>
+            <label>情绪<input type="range" id="kMood" min="0" max="100" value="72"></label>
+            <label>节奏<input type="range" id="kPulse" min="0" max="100" value="50"></label>
+          </div>
+          <button class="button button-primary" id="playStudio" type="button">▶ 试玩：转旋钮听声音</button>
+        </div>
+      </div>
+      <div class="studio-copy">
+        <p class="eyebrow">从动作到音乐</p>
+        <h2>每一次旋钮动作，都被编译成音乐意图。</h2>
+        <ol class="flow">
+          <li><span>01</span>选风格</li>
+          <li><span>02</span>调情绪</li>
+          <li><span>03</span>挑声音</li>
+          <li><span>04</span>塑节奏</li>
+          <li><span>05</span>按Jam</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section demos-section">
+      <div class="section-head">
+        <p class="eyebrow">Made with INDIER</p>
+        <h2>这些歌，全是转旋钮拨出来的。</h2>
+        <p class="dwall-sub">每一首都来自不同的控件配置——别的控制器只能遥控软件，INDIER自己创作。</p>
+      </div>
+      <div class="dwall">
+        <div class="dcard"><div class="dmeta"><strong>第一首</strong><span>Lo-Fi / Chill</span></div><audio controls preload="metadata" src="demos/01-first.mp3"></audio></div>
+        <div class="dcard"><div class="dmeta"><strong>国风 · 燃</strong><span>风格80 / 能量90 / 138bpm / 整曲</span></div><audio controls preload="metadata" src="demos/02-guofeng.mp3"></audio></div>
+        <div class="dcard"><div class="dmeta"><strong>电子 · 梦幻</strong><span>raw / euphoric / 120bpm / 整曲</span></div><audio controls preload="metadata" src="demos/03-electronic.mp3"></audio></div>
+        <div class="dcard"><div class="dmeta"><strong>嘻哈 · Chill</strong><span>minimal / 111bpm / 8拍成歌</span></div><audio controls preload="metadata" src="demos/04-hiphop.mp3"></audio></div>
+        <div class="dcard"><div class="dmeta"><strong>电子 · 燃</strong><span>Texture9 超密 / loop</span></div><audio controls preload="metadata" src="demos/05-creator.mp3"></audio></div>
+      </div>
+    </section>
+
+    <section class="section finish-section">
+      <div class="section-head">
+        <p class="eyebrow">做你自己的</p>
+        <h2>颜色可以有个性，但质感必须统一。</h2>
+      </div>
+      <figure class="finish-image">
+        <img src="colors.jpeg" alt="INDIER 不同配色的模块化控制器">
+      </figure>
+    </section>
+
+    <section id="sets" class="section package-section">
+      <div class="section-head">
+        <p class="eyebrow">预购套餐</p>
+        <h2>不要一开始就买全家桶，先买清爽的创作路线。</h2>
+      </div>
+      <div class="packages">
+        <article>
+          <span>入门级</span>
+          <h3>Creator Starter</h3>
+          <strong>¥1,199</strong>
+          <p>Core + Key，最低门槛体验"按下生成"。</p>
+        </article>
+        <article class="featured">
+          <span>全套版</span>
+          <h3>Creator Studio</h3>
+          <strong>¥1,999</strong>
+          <p>Core + Spin + Slide + Key，完整控制台，旋钮、推子、按键全配，适合深度创作和视频展示。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <strong>INDIER</strong>
+    <span>模块化AI音乐创作台 · 按下，就是创作。</span>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="studio-live.js"></script>
+</body>
+</html>
