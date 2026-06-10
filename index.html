@@ -3,62 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>INDIER Creator | 模块化AI音乐创作台</title>
-  <meta name="description" content="INDIER Creator 是面向AI音乐创作的模块化硬件控制台。旋钮、推子、按键和屏幕共同完成从灵感到歌曲的闭环。">
+  <title>INDIER Creator | Modular AI Music Console</title>
+  <meta name="description" content="INDIER Creator is a modular hardware console for AI music creation. Choose your skin, snap your modules, dial your sound.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="#top">INDIER</a>
-    <nav class="nav" aria-label="主导航">
-      <a href="#modules">模块</a>
-      <a href="#precision">工艺</a>
-      <a href="#create">创作</a>
-      <a href="#sets">预购</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#modules">Modules</a>
+      <a href="#skins">Skins</a>
+      <a href="#create">Create</a>
+      <a href="#sets">Pre-order</a>
     </nav>
-    <a class="header-action" href="#sets">立即预购</a>
+    <a class="header-action" href="#sets">Pre-order Now</a>
   </header>
 
   <main id="top">
+    <!-- ===== Hero ===== -->
     <section class="hero">
       <div class="hero-stage">
         <div class="hero-copy">
           <p class="eyebrow">INDIER Creator 01</p>
-          <h1>按下，就是创作。</h1>
-          <p class="lead">一套为AI音乐创作设计的模块化控制台。用真实旋钮、推子、按键和屏幕，把"写Prompt"变成一次可以上手的创作动作。</p>
+          <h1>Press, Create.</h1>
+          <p class="lead">A modular console for AI music creation. Snap modules like puzzle pieces, choose your skin, dial your sound — from zero to song in five turns.</p>
           <div class="hero-actions">
             <button class="button button-primary" id="playHero" type="button">
               <span class="play-mark" aria-hidden="true"></span>
-              试听样曲
+              Play Demo
             </button>
-            <a class="button button-secondary" href="#create">试玩控制台</a>
+            <a class="button button-secondary" href="#create">Try Console</a>
           </div>
         </div>
-        <figure class="hero-product hero-hardware-plan" aria-label="INDIER 平面模块化控制器样板">
-          <div class="plan-shell">
-            <div class="plan-module plan-core">
-              <span>Core</span>
-              <div class="mini-screen">
-                <b>Lo-Fi</b>
-                <i></i><i></i><i></i><i></i><i></i>
-              </div>
-            </div>
-            <div class="plan-joiner"></div>
-            <div class="plan-module plan-spin">
-              <span>Spin</span>
-              <div class="mini-knobs">
-                <i></i><i></i><i></i><i></i>
-              </div>
-            </div>
-            <div class="plan-module plan-slide">
-              <span>Slide</span>
-              <div class="mini-fader"><i></i></div>
-            </div>
-            <button class="plan-jam" type="button">JAM</button>
-          </div>
+        <figure class="hero-product">
+          <img src="hero.jpeg" alt="INDIER Creator modular music console">
         </figure>
       </div>
-      <div class="audio-dock" aria-label="样曲播放器">
+      <div class="audio-dock" aria-label="Demo player">
         <div>
           <span>Demo Track</span>
           <strong>Co-created with INDIER</strong>
@@ -67,234 +48,196 @@
       </div>
     </section>
 
-    <section class="signal-strip" aria-label="核心卖点">
-      <div><strong>4+</strong><span>硬件模块</span></div>
-      <div><strong>磁吸</strong><span>弹簧触点连接器</span></div>
-      <div><strong>MIDI</strong><span>外部控制层</span></div>
-      <div><strong>5步</strong><span>歌曲创作流程</span></div>
+    <section class="signal-strip" aria-label="Key specs">
+      <div><strong>4+</strong><span>Hardware Modules</span></div>
+      <div><strong>Magnetic</strong><span>Snap Connectors</span></div>
+      <div><strong>MIDI</strong><span>External Control Layer</span></div>
+      <div><strong>5-Step</strong><span>Song Creation Flow</span></div>
     </section>
 
+    <!-- ===== Modules ===== -->
     <section id="modules" class="section modules-section">
       <div class="section-head">
-        <p class="eyebrow">模块化系统</p>
-        <h2>从Core开始，添加你的音乐需要的控制。</h2>
+        <p class="eyebrow">Modular System</p>
+        <h2>Snap together. Pull apart. Build your rig.</h2>
       </div>
-      <figure class="product-wall puzzle-wall" aria-label="INDIER Core、Spin、Slide 模块拼接示意">
-        <div class="puzzle-copy">
-          <p class="eyebrow">Precision Modules</p>
-          <h3>模块不是拼玩具，是可扩展的音乐控制链路。</h3>
-          <p>Core 显示音乐图案，Spin 调音色和情绪，Slide 控制能量与结构。金色触点和低缝隙拼接让用户一眼理解“这是一套硬件系统”。</p>
-        </div>
-        <div class="puzzle-stage">
-          <div class="rail top"></div>
-          <div class="device one">
-            <span>Core</span>
-            <i></i><i></i><i></i><i></i><i></i>
-          </div>
-          <div class="device two">
-            <span>Spin</span>
-            <b></b>
-          </div>
-          <div class="device three">
-            <span>Slide</span>
-            <em></em>
-          </div>
-          <div class="rail bottom"></div>
-        </div>
+      <figure class="product-wall">
+        <img src="modules.jpeg" alt="INDIER Core, Spin, Slide, Key modules">
       </figure>
       <div class="module-specs">
         <article>
           <span>01</span>
           <h3>Core Display</h3>
-          <p>竖屏主控，显示波形、生成状态、版本记录和当前参数。</p>
-          <dl><dt>定位</dt><dd>大脑 / 时间线</dd><dt>表面</dt><dd>玻璃 + 铝合金边框</dd></dl>
+          <p>Vertical screen showing waveforms, generation status, version history and current parameters.</p>
+          <dl><dt>Role</dt><dd>Brain / Timeline</dd><dt>Surface</dt><dd>Glass + Aluminum</dd></dl>
         </article>
         <article>
           <span>02</span>
           <h3>Spin</h3>
-          <p>带光环反馈的旋钮模块，用来控制风格、情绪、节奏和音色权重。</p>
-          <dl><dt>控制</dt><dd>编码器 + RGB灯环</dd><dt>手感</dt><dd>连续旋转</dd></dl>
+          <p>Knob module with ring-light feedback for style, mood, rhythm and tone weight.</p>
+          <dl><dt>Control</dt><dd>Encoder + RGB Ring</dd><dt>Feel</dt><dd>Continuous Rotation</dd></dl>
         </article>
         <article>
           <span>03</span>
           <h3>Slide</h3>
-          <p>用于起伏能量、混音比例和生成强度的长行程手动滑杆。</p>
-          <dl><dt>控制</dt><dd>推子 + LED刻度</dd><dt>用途</dt><dd>能量 / 混音</dd></dl>
+          <p>Long-throw fader for energy, mix ratio and generation intensity.</p>
+          <dl><dt>Control</dt><dd>Fader + LED Scale</dd><dt>Use</dt><dd>Energy / Mix</dd></dl>
         </article>
         <article>
           <span>04</span>
           <h3>Key</h3>
-          <p>热插拔机械按键触发 Jam、Retry、Release，支持换轴定制手感。</p>
-          <dl><dt>输入</dt><dd>触发 / 快捷</dd><dt>动作</dt><dd>Jam / Retry</dd></dl>
+          <p>Hot-swap mechanical key triggers Jam, Retry, Release.</p>
+          <dl><dt>Input</dt><dd>Trigger / Shortcut</dd><dt>Action</dt><dd>Jam / Retry</dd></dl>
         </article>
       </div>
     </section>
 
-    <section id="precision" class="section precision-section">
-      <div class="precision-copy">
-        <p class="eyebrow">精密与力量</p>
-        <h2>连接器不能像玩具，模块缝隙也不能像拼图。</h2>
-        <p>INDIER 的视觉标准是"精密控制台"：深色阳极氧化铝合金质感、玻璃面板、金色触点、低缝隙磁吸模块连接、霓虹状态灯反馈。网页要卖的是硬件可信度，不是AI口号。</p>
+    <!-- ===== CHOOSE YOUR SKIN — The Big Visual ===== -->
+    <section id="skins" class="section skins-section">
+      <div class="skins-copy">
+        <p class="eyebrow">Choose Your Skin</p>
+        <h2>DIY themes. Your sound, your style.</h2>
+        <p>Every module snaps together like puzzle pieces — and every screen is a canvas. Pick Lo-Fi chill, Synthwave fire, HIP-HOP grit, or design your own. Same hardware, infinite personalities. That's modularity that shows.</p>
       </div>
-      <div class="connector-board" aria-label="模块连接结构示意">
-        <div class="rail top"></div>
-        <div class="device one">
-          <span>Core</span>
-          <i></i><i></i><i></i><i></i><i></i>
+      <figure class="skins-hero">
+        <img src="skins.png" alt="INDIER Choose Your Skin - Lo-Fi, Synthwave, HIP-HOP three devices side by side">
+      </figure>
+      <div class="skins-features">
+        <div class="sf-card">
+          <span class="sf-icon">🎨</span>
+          <strong>DIY Skins</strong>
+          <p>Design your own visual theme. Your music, your look.</p>
         </div>
-        <div class="device two">
-          <span>Spin</span>
-          <b></b>
+        <div class="sf-card">
+          <span class="sf-icon">🧩</span>
+          <strong>Modular Combo</strong>
+          <p>Core + Spin + Slide + Key. Mix modules like puzzle pieces.</p>
         </div>
-        <div class="device three">
-          <span>Slide</span>
-          <em></em>
+        <div class="sf-card">
+          <span class="sf-icon">🎛️</span>
+          <strong>Dial Your Sound</strong>
+          <p>Real knobs, real faders, real keys. Not sliders on a screen.</p>
         </div>
-        <div class="rail bottom"></div>
       </div>
     </section>
 
-    <!-- ★ Virtual Hardware Console ★ -->
+    <!-- ===== Virtual INDIER Device ===== -->
     <section id="create" class="section studio-section">
-      <div class="studio-panel">
-        <div class="studio-screen">
-          <div class="screen-bar">
-            <span>INDIER Studio</span>
-            <strong id="screenTitle">Analog Lo-Fi</strong>
-          </div>
-          <div class="waveform" id="waveform" aria-hidden="true">
-            <!-- 24 bars generated by JS -->
-          </div>
-          <div class="param"><span>风格</span><b id="pVibe">Analog Lo-Fi</b></div>
-          <div class="param"><span>情绪</span><b id="pMood">72%</b></div>
-          <div class="param"><span>节奏</span><b id="pPulse">86 BPM</b></div>
-          <!-- DIY panel injected by JS -->
-        </div>
+      <div class="studio-header">
+        <p class="eyebrow">Try It Now</p>
+        <h2>Turn knobs. Watch it respond. Press JAM.</h2>
+      </div>
 
-        <!-- Virtual Hardware Controls -->
-        <div class="vcontrols">
-          <div class="vknob" id="knobVibe">
-            <div class="knob-body">
-              <div class="knob-indicator"></div>
-              <svg class="knob-arc" viewBox="0 0 72 72"><path d=""></path></svg>
+      <div class="indier-device" id="indierDevice">
+        <div class="device-body">
+          <div class="device-screen" id="deviceScreen">
+            <div class="scr-top">
+              <span class="scr-label" id="scrLabel">Looper</span>
+              <span class="scr-bpm" id="scrBpm">BPM 90</span>
             </div>
-            <span class="knob-label">VIBE</span>
-          </div>
-          <div class="vknob" id="knobMood">
-            <div class="knob-body">
-              <div class="knob-indicator"></div>
-              <svg class="knob-arc" viewBox="0 0 72 72"><path d=""></path></svg>
+            <div class="scr-theme" id="scrTheme">Lo-Fi</div>
+            <div class="scr-wave" id="scrWave" aria-hidden="true"></div>
+            <div class="scr-progress">
+              <span id="scrTime">01:24</span>
+              <div class="scr-bar"><div class="scr-fill" id="scrFill"></div></div>
+              <span>03:45</span>
             </div>
-            <span class="knob-label">MOOD</span>
-          </div>
-          <div class="vfader" id="faderEnergy">
-            <div class="fader-track">
-              <div class="fader-led" style="top:6px"></div>
-              <div class="fader-led" style="top:20px"></div>
-              <div class="fader-led" style="top:34px"></div>
-              <div class="fader-led" style="top:48px"></div>
-              <div class="fader-led" style="top:62px"></div>
-              <div class="fader-led" style="top:76px"></div>
-              <div class="fader-led" style="top:90px"></div>
-              <div class="fader-led" style="top:104px"></div>
-              <div class="fader-thumb"></div>
+            <div class="scr-icons">
+              <span class="si on" id="siWave">WAVE</span>
+              <span class="si" id="siFx">FX</span>
+              <span class="si" id="siFile">FILE</span>
+              <span class="si" id="siSys">SYS</span>
             </div>
-            <span class="knob-label">ENERGY</span>
           </div>
-          <div class="vknob" id="knobPulse">
-            <div class="knob-body">
-              <div class="knob-indicator"></div>
-              <svg class="knob-arc" viewBox="0 0 72 72"><path d=""></path></svg>
+          <div class="device-knobs">
+            <div class="knob-unit" id="knobVibe" data-value="50">
+              <div class="knob-outer"><div class="knob-inner"><div class="knob-indicator"></div></div></div>
+              <span class="knob-name">VIBE</span>
             </div>
-            <span class="knob-label">TEMPO</span>
+            <div class="knob-unit" id="knobMood" data-value="50">
+              <div class="knob-outer"><div class="knob-inner"><div class="knob-indicator"></div></div></div>
+              <span class="knob-name">MOOD</span>
+            </div>
+            <div class="knob-unit" id="knobEnergy" data-value="50">
+              <div class="knob-outer"><div class="knob-inner"><div class="knob-indicator"></div></div></div>
+              <span class="knob-name">ENERGY</span>
+            </div>
+            <div class="knob-unit" id="knobTempo" data-value="50">
+              <div class="knob-outer"><div class="knob-inner"><div class="knob-indicator"></div></div></div>
+              <span class="knob-name">TEMPO</span>
+            </div>
           </div>
-          <button class="vbutton jam-btn" id="playStudio" type="button">
-            <span class="jam-icon">▶</span>
-            <span class="jam-text">JAM</span>
+          <button class="device-jam" id="btnJam" type="button">
+            <span class="jam-dot"></span>
+            <span class="jam-label">JAM</span>
           </button>
         </div>
+        <div class="skin-bar">
+          <div class="skin-title">CHOOSE YOUR <span class="skin-grad">SKIN</span></div>
+          <div class="skin-row">
+            <button class="skin-btn active" data-skin="lofi">Lo-Fi</button>
+            <button class="skin-btn" data-skin="synthwave">Synthwave</button>
+            <button class="skin-btn" data-skin="hiphop">HIP-HOP</button>
+          </div>
+          <div class="skin-sub">DIY THEMES. YOUR SOUND, YOUR <span class="skin-grad2">STYLE</span>.</div>
+        </div>
       </div>
-      <div class="studio-copy">
-        <p class="eyebrow">从动作到音乐</p>
-        <h2>每一次旋钮动作，都被编译成音乐意图。</h2>
-        <ol class="flow">
-          <li><span>01</span>选风格</li>
-          <li><span>02</span>调情绪</li>
-          <li><span>03</span>挑声音</li>
-          <li><span>04</span>塑节奏</li>
-          <li><span>05</span>按Jam</li>
+
+      <div class="studio-flow">
+        <ol class="flow-steps">
+          <li><span>01</span> Style</li>
+          <li><span>02</span> Mood</li>
+          <li><span>03</span> Sound</li>
+          <li><span>04</span> Rhythm</li>
+          <li><span>05</span> Jam</li>
         </ol>
       </div>
     </section>
 
+    <!-- ===== Demos ===== -->
     <section class="section demos-section">
       <div class="section-head">
         <p class="eyebrow">Made with INDIER</p>
-        <h2>这些歌，全是转旋钮拨出来的。</h2>
-        <p class="dwall-sub">每一首都来自不同的控件配置——别的控制器只能遥控软件，INDIER自己创作。</p>
+        <h2>These songs were all dialed in with knobs.</h2>
       </div>
       <div class="dwall">
-        <div class="dcard"><div class="dmeta"><strong>第一首</strong><span>Lo-Fi / Chill</span></div><audio controls preload="metadata" src="demos/01-first.mp3"></audio></div>
-        <div class="dcard"><div class="dmeta"><strong>国风 · 燃</strong><span>风格80 / 能量90 / 138bpm / 整曲</span></div><audio controls preload="metadata" src="demos/02-guofeng.mp3"></audio></div>
-        <div class="dcard"><div class="dmeta"><strong>电子 · 梦幻</strong><span>raw / euphoric / 120bpm / 整曲</span></div><audio controls preload="metadata" src="demos/03-electronic.mp3"></audio></div>
-        <div class="dcard"><div class="dmeta"><strong>嘻哈 · Chill</strong><span>minimal / 111bpm / 8拍成歌</span></div><audio controls preload="metadata" src="demos/04-hiphop.mp3"></audio></div>
-        <div class="dcard"><div class="dmeta"><strong>电子 · 燃</strong><span>Texture9 超密 / loop</span></div><audio controls preload="metadata" src="demos/05-creator.mp3"></audio></div>
+        <div class="dcard"><div class="dmeta"><strong>First Song</strong><span>Lo-Fi / Chill</span></div><audio controls preload="metadata" src="demos/01-first.mp3"></audio></div>
+        <div class="dcard"><div class="dmeta"><strong>Guofeng · Fire</strong><span>Style 80 / Energy 90 / 138bpm</span></div><audio controls preload="metadata" src="demos/02-guofeng.mp3"></audio></div>
+        <div class="dcard"><div class="dmeta"><strong>Electronic · Dream</strong><span>raw / euphoric / 120bpm</span></div><audio controls preload="metadata" src="demos/03-electronic.mp3"></audio></div>
+        <div class="dcard"><div class="dmeta"><strong>Hip-Hop · Chill</strong><span>minimal / 111bpm</span></div><audio controls preload="metadata" src="demos/04-hiphop.mp3"></audio></div>
+        <div class="dcard"><div class="dmeta"><strong>Electronic · Fire</strong><span>Texture9 dense / loop</span></div><audio controls preload="metadata" src="demos/05-creator.mp3"></audio></div>
       </div>
     </section>
 
+    <!-- ===== Finish ===== -->
     <section class="section finish-section">
       <div class="section-head">
-        <p class="eyebrow">做你自己的</p>
-        <h2>颜色可以有个性，但质感必须统一。</h2>
+        <p class="eyebrow">Make It Yours</p>
+        <h2>Colors can have personality, but the finish must be unified.</h2>
       </div>
-      <figure class="finish-image skin-wall" aria-label="INDIER DIY 主题皮肤">
-        <div class="skin-card skin-lofi">
-          <div class="skin-screen">
-            <span>Looper</span><b>Lo-Fi</b><strong>90</strong>
-            <div class="skin-wave"></div>
-            <div class="skin-nav"><i></i><i></i><i></i><i></i></div>
-          </div>
-          <div class="skin-knobs"><i></i><i></i><i></i><i></i></div>
-          <small>WAVE / FX / FILE / SYS</small>
-        </div>
-        <div class="skin-card skin-synth">
-          <div class="skin-screen">
-            <span>TRACK 01</span><b>SYNTHWAVE</b><strong>90</strong>
-            <div class="skin-sunset"></div>
-            <div class="skin-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          </div>
-          <div class="skin-knobs"><i></i><i></i><i></i><i></i></div>
-          <small>RETRO GRID / NEON BAR</small>
-        </div>
-        <div class="skin-card skin-hiphop">
-          <div class="skin-screen">
-            <span>Now Playing</span><b>HIP-HOP</b><strong>90</strong>
-            <div class="skin-cover"></div>
-            <div class="skin-nav"><i></i><i></i><i></i><i></i></div>
-          </div>
-          <div class="skin-knobs"><i></i><i></i><i></i><i></i></div>
-          <small>ART COVER / BEAT DISPLAY</small>
-        </div>
+      <figure class="finish-image">
+        <img src="colors.jpeg" alt="INDIER modular controllers in different colors">
       </figure>
     </section>
 
+    <!-- ===== Packages ===== -->
     <section id="sets" class="section package-section">
       <div class="section-head">
-        <p class="eyebrow">预购套餐</p>
-        <h2>不要一开始就买全家桶，先买清爽的创作路线。</h2>
+        <p class="eyebrow">Pre-order Packages</p>
+        <h2>Don't buy the whole rig first. Start with the clean creative path.</h2>
       </div>
       <div class="packages">
         <article>
-          <span>入门级</span>
+          <span>Starter</span>
           <h3>Creator Starter</h3>
-          <strong>¥1,199</strong>
-          <p>Core + Key，最低门槛体验"按下生成"。</p>
+          <strong>&yen;1,199</strong>
+          <p>Core + Key. The minimum viable "press to generate" experience.</p>
         </article>
         <article class="featured">
-          <span>全套版</span>
+          <span>Full Set</span>
           <h3>Creator Studio</h3>
-          <strong>¥1,999</strong>
-          <p>Core + Spin + Slide + Key，完整控制台，旋钮、推子、按键全配，适合深度创作和视频展示。</p>
+          <strong>&yen;1,999</strong>
+          <p>Core + Spin + Slide + Key. Complete console with knobs, faders, keys — for deep creation and video showcases.</p>
         </article>
       </div>
     </section>
@@ -302,7 +245,7 @@
 
   <footer class="footer">
     <strong>INDIER</strong>
-    <span>模块化AI音乐创作台 · 按下，就是创作。</span>
+    <span>Modular AI Music Console · Press, Create.</span>
   </footer>
 
   <script src="app.js"></script>

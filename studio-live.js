@@ -1,453 +1,366 @@
-// INDIER Studio Live — 虚拟硬件控制台：旋钮+推子+按键+动态波形+DIY图案+Web Audio
+/* ===== INDIER Studio Live — Virtual Hardware Console ===== */
 (function(){
-  "use strict";
+  'use strict';
 
-  const el = id => document.getElementById(id);
-  const clamp = (v,lo,hi) => Math.max(lo, Math.min(hi, v));
-
-  /* ───── 全局状态 ───── */
-  const state = { vibe:40, energy:55, mood:72, pulse:50 };
-
-  const vibes = ["Raw Bedroom","Lo-Fi Tape","Analog Warm","Clean Studio","Cinematic"];
-  const palettes = [
-    { from:"#ff6b2b", to:"#ff4fc3", glow:"rgba(255,107,43,.3)" },
-    { from:"#46e6e0", to:"#7b68ee", glow:"rgba(70,230,224,.3)" },
-    { from:"#d6a94a", to:"#ff6b2b", glow:"rgba(214,169,74,.3)" },
-    { from:"#00ff88", to:"#46e6e0", glow:"rgba(0,255,136,.3)" },
-    { from:"#7b68ee", to:"#ff4fc3", glow:"rgba(123,104,238,.3)" },
-  ];
-
-  function bpm(){ return Math.round(70 + state.pulse / 100 * 90); }
-  function getPalette(){ return palettes[Math.min(4, Math.floor(state.vibe / 100 * 5))]; }
-
-  const pVibe  = el("pVibe");
-  const pMood  = el("pMood");
-  const pPulse = el("pPulse");
-  const screenTitle = el("screenTitle");
-
-  function refreshParams(){
-    if(pVibe)  pVibe.textContent  = vibes[Math.min(4, Math.floor(state.vibe / 100 * 5))];
-    if(pMood)  pMood.textContent  = state.mood + "%";
-    if(pPulse) pPulse.textContent = bpm() + " BPM";
-    if(screenTitle) screenTitle.textContent = vibes[Math.min(4, Math.floor(state.vibe / 100 * 5))];
-  }
-
-  /* ═══════════════════════════════
-     VIRTUAL KNOB — 旋转旋钮
-     ═══════════════════════════════ */
-  function createKnob(containerId, paramKey, opts = {}){
-    const container = el(containerId);
-    if(!container) return;
-
-    const body = container.querySelector(".knob-body");
-    const indicator = container.querySelector(".knob-indicator");
-    const arcSvg = container.querySelector(".knob-arc");
-    if(!body || !indicator) return;
-
-    let value = state[paramKey];
-    let dragging = false;
-    let startY, startVal;
-
-    // 旋钮角度范围：-135° ~ +135°（270° sweep）
-    const MIN_ANGLE = -135, MAX_ANGLE = 135;
-    function valToAngle(v){ return MIN_ANGLE + (v / 100) * (MAX_ANGLE - MIN_ANGLE); }
-
-    function render(){
-      const angle = valToAngle(value);
-      indicator.style.transform = `rotate(${angle}deg)`;
-      // Arc progress
-      if(arcSvg){
-        const r = 30, cx = 36, cy = 36;
-        const startRad = (MIN_ANGLE - 90) * Math.PI / 180;
-        const endRad = (angle - 90) * Math.PI / 180;
-        const largeArc = (angle - MIN_ANGLE) > 180 ? 1 : 0;
-        const sx = cx + r * Math.cos(startRad), sy = cy + r * Math.sin(startRad);
-        const ex = cx + r * Math.cos(endRad), ey = cy + r * Math.sin(endRad);
-        const p = arcSvg.querySelector("path");
-        if(p) p.setAttribute("d", `M${sx},${sy} A${r},${r} 0 ${largeArc} 1 ${ex},${ey}`);
+  /* ---------- Skin Configs ---------- */
+  const SKINS = {
+    lofi: {
+      color: '#46e6e0',
+      glow:  'rgba(70,230,224,.35)',
+      bpm: 90,
+      label: 'Looper',
+      theme: 'Lo-Fi',
+      waveFn: function(i,t,total,vibe,mood,energy){
+        var h = 20 + 30*Math.sin(i*.3+t*.8) + 10*Math.sin(i*.7+t*1.3) + energy*.25*Math.sin(i*1.2+t*2);
+        return h * (.5 + .5*vibe/100);
       }
-      // Active glow
-      const pal = getPalette();
-      if(value > 60){
-        body.style.boxShadow = `0 0 ${12 + value/5}px ${pal.glow}, inset 0 1px 0 rgba(255,255,255,.1)`;
-      } else {
-        body.style.boxShadow = "0 4px 16px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.1)";
+    },
+    synthwave: {
+      color: '#ff6b2b',
+      glow:  'rgba(255,107,43,.35)',
+      bpm: 90,
+      label: 'TRACK 01',
+      theme: 'SYNTHWAVE',
+      waveFn: function(i,t,total,vibe,mood,energy){
+        var h = 15 + 25*Math.sin(i*.5+t*1.2) + 15*Math.cos(i*1.1-t*.7) + energy*.3*Math.sin(i*2+t*3);
+        return h * (.4 + .6*vibe/100);
       }
-      indicator.style.background = pal.from;
-    }
-
-    function update(val){
-      value = clamp(val, 0, 100);
-      state[paramKey] = value;
-      refreshParams();
-      render();
-    }
-
-    // Pointer interaction — vertical drag turns knob
-    body.addEventListener("pointerdown", (e) => {
-      dragging = true;
-      startY = e.clientY;
-      startVal = value;
-      body.style.cursor = "grabbing";
-      body.setPointerCapture(e.pointerId);
-      e.preventDefault();
-    });
-    body.addEventListener("pointermove", (e) => {
-      if(!dragging) return;
-      const dy = startY - e.clientY; // up = increase
-      const sensitivity = opts.sensitivity || 0.8;
-      update(startVal + dy * sensitivity);
-    });
-    body.addEventListener("pointerup", () => { dragging = false; body.style.cursor = "grab"; });
-    body.addEventListener("pointercancel", () => { dragging = false; body.style.cursor = "grab"; });
-
-    // Scroll wheel
-    body.addEventListener("wheel", (e) => {
-      e.preventDefault();
-      update(value + (e.deltaY < 0 ? 2 : -2));
-    }, {passive:false});
-
-    render();
-    return { update, render };
-  }
-
-  /* ═══════════════════════════════
-     VIRTUAL FADER — 垂直推子
-     ═══════════════════════════════ */
-  function createFader(containerId, paramKey){
-    const container = el(containerId);
-    if(!container) return;
-
-    const track = container.querySelector(".fader-track");
-    const thumb = container.querySelector(".fader-thumb");
-    const leds  = container.querySelectorAll(".fader-led");
-    if(!track || !thumb) return;
-
-    let value = state[paramKey];
-    let dragging = false;
-
-    function render(){
-      // Thumb position (bottom = 0, top = 100)
-      const trackH = track.clientHeight;
-      const thumbH = 14;
-      const maxTop = trackH - thumbH;
-      const top = maxTop - (value / 100) * maxTop;
-      thumb.style.top = top + "px";
-
-      // LEDs
-      const pal = getPalette();
-      leds.forEach((led, i) => {
-        const threshold = (leds.length - i) / leds.length * 100;
-        if(value >= threshold){
-          led.style.background = pal.from;
-          led.style.boxShadow = `0 0 6px ${pal.glow}`;
-        } else {
-          led.style.background = "rgba(255,255,255,.08)";
-          led.style.boxShadow = "none";
-        }
-      });
-
-      // Thumb glow
-      if(value > 60){
-        thumb.style.boxShadow = `0 0 10px ${pal.glow}, 0 2px 6px rgba(0,0,0,.4)`;
-      } else {
-        thumb.style.boxShadow = "0 2px 6px rgba(0,0,0,.4)";
+    },
+    hiphop: {
+      color: '#ffd700',
+      glow:  'rgba(255,215,0,.35)',
+      bpm: 90,
+      label: 'Now Playing',
+      theme: 'HIP-HOP',
+      waveFn: function(i,t,total,vibe,mood,energy){
+        var h = 10 + 20*Math.abs(Math.sin(i*.4+t*.6)) + 15*Math.sin(i*1.5+t*1.8) + energy*.35*Math.sin(i*2.5+t*2.5);
+        return h * (.3 + .7*vibe/100);
       }
     }
+  };
 
-    function update(val){
-      value = clamp(val, 0, 100);
-      state[paramKey] = value;
-      refreshParams();
-      render();
-    }
+  /* ---------- State ---------- */
+  var currentSkin = 'lofi';
+  var knobValues = { vibe:50, mood:50, energy:50, tempo:50 };
+  var isJamming = false;
+  var audioCtx = null;
+  var oscillators = [];
+  var phase = 0;
+  var animId = null;
+  var progressPhase = 0;
 
-    function handlePointer(e){
-      const rect = track.getBoundingClientRect();
-      const y = e.clientY - rect.top;
-      const pct = 1 - (y / rect.height);
-      update(clamp(pct, 0, 1) * 100);
-    }
+  /* ---------- DOM ---------- */
+  var scrTheme  = document.getElementById('scrTheme');
+  var scrLabel  = document.getElementById('scrLabel');
+  var scrBpm    = document.getElementById('scrBpm');
+  var scrWave   = document.getElementById('scrWave');
+  var scrFill   = document.getElementById('scrFill');
+  var scrTime   = document.getElementById('scrTime');
+  var btnJam    = document.getElementById('btnJam');
+  var device    = document.getElementById('indierDevice');
 
-    thumb.addEventListener("pointerdown", (e) => {
-      dragging = true;
-      thumb.setPointerCapture(e.pointerId);
-      e.preventDefault();
-    });
-    track.addEventListener("pointerdown", (e) => {
-      dragging = true;
-      handlePointer(e);
-      e.preventDefault();
-    });
-    document.addEventListener("pointermove", (e) => { if(dragging) handlePointer(e); });
-    document.addEventListener("pointerup", () => { dragging = false; });
-
-    // Scroll
-    track.addEventListener("wheel", (e) => {
-      e.preventDefault();
-      update(value + (e.deltaY < 0 ? 3 : -3));
-    }, {passive:false});
-
-    render();
-    return { update, render };
-  }
-
-  /* ═══════════════════════════════
-     DYNAMIC WAVEFORM — 24 bars
-     ═══════════════════════════════ */
-  const waveEl = document.querySelector(".waveform");
-  const BAR_COUNT = 24;
-  const bars = [];
-
-  if(waveEl){
-    waveEl.innerHTML = "";
-    for(let i = 0; i < BAR_COUNT; i++){
-      const b = document.createElement("i");
-      b.style.cssText = "display:block;flex:1;min-height:4px;border-radius:999px;will-change:height;";
-      waveEl.appendChild(b);
+  /* ---------- Init Waveform Bars ---------- */
+  var BAR_COUNT = 24;
+  var bars = [];
+  function initBars(){
+    scrWave.innerHTML = '';
+    bars = [];
+    for(var i=0;i<BAR_COUNT;i++){
+      var b = document.createElement('div');
+      b.className = 'bar';
+      b.style.height = '10%';
+      scrWave.appendChild(b);
       bars.push(b);
     }
   }
+  initBars();
 
-  let phase = 0;
-  let diyMode = false;
-  let diyPattern = null;
-  let diyActivePreset = -1;
+  /* ---------- Apply Skin ---------- */
+  function applySkin(name){
+    var s = SKINS[name];
+    if(!s) return;
+    currentSkin = name;
+    document.documentElement.style.setProperty('--skin-color', s.color);
+    document.documentElement.style.setProperty('--skin-glow', s.glow);
+    scrTheme.textContent = s.theme;
+    scrTheme.style.color = s.color;
+    scrTheme.style.textShadow = '0 0 20px '+s.glow;
+    scrLabel.textContent = s.label;
 
-  const presets = [
-    { name:"Heartbeat", data:[.2,.4,.9,.6,.2,.15,.2,.4,.9,.6,.2,.15,.2,.4,.9,.6,.2,.15,.2,.4,.9,.6,.2,.15] },
-    { name:"Sawtooth", data:[.1,.2,.3,.4,.5,.6,.7,.8,.9,1,.9,.8,.7,.6,.5,.4,.3,.2,.1,.2,.3,.4,.5,.6] },
-    { name:"Pulse",    data:[1,0,1,0,.8,0,.6,0,.8,0,1,0,1,0,.8,0,.6,0,.8,0,1,0,1,0] },
-    { name:"Mountain", data:[.1,.2,.35,.55,.8,.95,.85,.6,.4,.25,.15,.1,.1,.15,.25,.4,.6,.85,.95,.8,.55,.35,.2,.1] },
-    { name:"Breath",   data:[.3,.45,.6,.75,.9,1,.9,.75,.6,.45,.3,.15,.3,.45,.6,.75,.9,1,.9,.75,.6,.45,.3,.15] },
-    { name:"Random",   data:null },
-  ];
+    /* Skin buttons */
+    document.querySelectorAll('.skin-btn').forEach(function(b){
+      b.classList.toggle('active', b.dataset.skin===name);
+    });
 
-  function initDiyPattern(presetData){
-    diyPattern = new Float32Array(BAR_COUNT);
-    if(presetData){
-      for(let i = 0; i < BAR_COUNT; i++){
-        const si = (i / BAR_COUNT) * presetData.length;
-        const lo = Math.floor(si), hi = Math.min(presetData.length-1, lo+1), f = si-lo;
-        diyPattern[i] = presetData[lo]*(1-f) + presetData[hi]*f;
+    /* Screen icons */
+    document.querySelectorAll('.scr-icons .si').forEach(function(si){
+      if(si.classList.contains('on')){
+        si.style.color = s.color;
+        si.style.textShadow = '0 0 6px '+s.glow;
       }
-    } else if(presets[5].data === null){
-      for(let i=0;i<BAR_COUNT;i++) diyPattern[i] = Math.random();
-    } else {
-      for(let i=0;i<BAR_COUNT;i++) diyPattern[i] = 0.5;
+    });
+
+    /* Progress fill */
+    scrFill.style.background = s.color;
+
+    /* JAM active state */
+    if(isJamming){
+      btnJam.style.borderColor = s.color;
+      btnJam.style.boxShadow = '0 0 20px '+s.glow;
+      btnJam.querySelector('.jam-dot').style.background = s.color;
+      btnJam.querySelector('.jam-dot').style.boxShadow = '0 0 10px '+s.glow;
     }
   }
 
-  // DIY panel
-  const studioScreen = document.querySelector(".studio-screen");
-  let diyPanel = null, presetBtns = [];
+  /* ---------- Skin Buttons ---------- */
+  document.querySelectorAll('.skin-btn').forEach(function(b){
+    b.addEventListener('click', function(){ applySkin(b.dataset.skin); });
+  });
 
-  function buildDiyPanel(){
-    if(diyPanel) return;
-    diyPanel = document.createElement("div");
-    diyPanel.className = "diy-panel";
+  /* ---------- Knob Rotation ---------- */
+  function setupKnob(el, key){
+    var outer = el.querySelector('.knob-outer');
+    var inner = el.querySelector('.knob-inner');
+    var val = knobValues[key];
+    var minA = -135, maxA = 135;
+    var dragging = false, lastY = 0;
 
-    const toggleRow = document.createElement("div");
-    toggleRow.style.cssText = "display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;";
-    const toggleLabel = document.createElement("span");
-    toggleLabel.className = "diy-label";
-    toggleLabel.textContent = "DIY PATTERN";
-    const toggleBtn = document.createElement("button");
-    toggleBtn.className = "diy-toggle";
-    toggleBtn.textContent = "OFF";
-    toggleBtn.id = "diyToggle";
-    toggleBtn.addEventListener("click", () => {
-      diyMode = !diyMode;
-      toggleBtn.textContent = diyMode ? "ON" : "OFF";
-      toggleBtn.classList.toggle("active", diyMode);
-      if(diyMode && !diyPattern) initDiyPattern();
+    function setAngle(a){
+      a = Math.max(minA, Math.min(maxA, a));
+      val = Math.round(((a - minA)/(maxA - minA))*100);
+      knobValues[key] = val;
+      el.dataset.value = val;
+      inner.style.transform = 'rotate('+a+'deg)';
+      updateBpm();
+    }
+
+    /* Init angle */
+    setAngle(minA + (val/100)*(maxA-minA));
+
+    /* Pointer drag */
+    outer.addEventListener('pointerdown', function(e){
+      dragging = true;
+      lastY = e.clientY;
+      outer.setPointerCapture(e.pointerId);
+      e.preventDefault();
     });
-    toggleRow.appendChild(toggleLabel);
-    toggleRow.appendChild(toggleBtn);
-    diyPanel.appendChild(toggleRow);
+    document.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      var dy = lastY - e.clientY;
+      var curAngle = minA + (val/100)*(maxA-minA);
+      var newAngle = curAngle + dy * 1.5;
+      setAngle(newAngle);
+      lastY = e.clientY;
+    });
+    document.addEventListener('pointerup', function(){
+      dragging = false;
+    });
 
-    const presetRow = document.createElement("div");
-    presetRow.className = "diy-presets";
-    presets.forEach((p, idx) => {
-      const btn = document.createElement("button");
-      btn.className = "diy-preset-btn";
-      btn.textContent = p.name;
-      btn.addEventListener("click", () => {
-        diyMode = true;
-        const tb = el("diyToggle");
-        if(tb){ tb.textContent = "ON"; tb.classList.add("active"); }
-        diyActivePreset = idx;
-        if(p.data === null){
-          initDiyPattern();
-          for(let i=0;i<BAR_COUNT;i++) diyPattern[i] = Math.random();
+    /* Scroll wheel */
+    outer.addEventListener('wheel', function(e){
+      e.preventDefault();
+      var curAngle = minA + (val/100)*(maxA-minA);
+      var delta = e.deltaY > 0 ? -6 : 6;
+      setAngle(curAngle + delta);
+    }, {passive:false});
+  }
+
+  setupKnob(document.getElementById('knobVibe'), 'vibe');
+  setupKnob(document.getElementById('knobMood'), 'mood');
+  setupKnob(document.getElementById('knobEnergy'), 'energy');
+  setupKnob(document.getElementById('knobTempo'), 'tempo');
+
+  /* ---------- BPM Update ---------- */
+  function updateBpm(){
+    var base = SKINS[currentSkin].bpm;
+    var bpm = Math.round(base + (knobValues.tempo - 50)*1.2);
+    bpm = Math.max(60, Math.min(180, bpm));
+    scrBpm.textContent = 'BPM '+bpm;
+  }
+
+  /* ---------- Waveform Animation ---------- */
+  function animateWave(){
+    var skin = SKINS[currentSkin];
+    var bpm = Math.round(skin.bpm + (knobValues.tempo - 50)*1.2);
+    bpm = Math.max(60, Math.min(180, bpm));
+    var speed = bpm / 120;
+    phase += 0.02 * speed;
+
+    var vibe   = knobValues.vibe;
+    var mood   = knobValues.mood;
+    var energy = knobValues.energy;
+
+    for(var i=0;i<bars.length;i++){
+      var h = skin.waveFn(i, phase, BAR_COUNT, vibe, mood, energy);
+      h = Math.max(5, Math.min(95, h));
+      bars[i].style.height = h+'%';
+      if(h > 65){
+        bars[i].classList.add('glow');
+      } else {
+        bars[i].classList.remove('glow');
+      }
+    }
+
+    /* Progress bar */
+    if(isJamming){
+      progressPhase += 0.0005 * speed;
+      if(progressPhase > 1) progressPhase = 0;
+      scrFill.style.width = (progressPhase*100)+'%';
+      var elapsed = Math.floor(progressPhase * 225);
+      var mm = String(Math.floor(elapsed/60)).padStart(2,'0');
+      var ss = String(elapsed%60).padStart(2,'0');
+      scrTime.textContent = mm+':'+ss;
+    }
+
+    animId = requestAnimationFrame(animateWave);
+  }
+  animateWave();
+
+  /* ---------- JAM Button — Web Audio Synth ---------- */
+  function getAudioCtx(){
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+  }
+
+  function startSynth(){
+    var ctx = getAudioCtx();
+    if(ctx.state === 'suspended') ctx.resume();
+    stopSynth();
+
+    var skin = SKINS[currentSkin];
+    var tempo = knobValues.tempo;
+    var mood  = knobValues.mood;
+    var vibe  = knobValues.vibe;
+    var energy= knobValues.energy;
+
+    /* Base frequency from vibe */
+    var baseFreq = 110 + vibe * 2.5;
+
+    /* Mood shifts timbre: 0=clean, 50=warm, 100=harsh */
+    var detune = (mood - 50) * 4;
+
+    /* Energy = volume */
+    var vol = 0.06 + energy * 0.0012;
+
+    /* Main oscillator */
+    var osc1 = ctx.createOscillator();
+    osc1.type = 'sawtooth';
+    osc1.frequency.value = baseFreq;
+    osc1.detune.value = detune;
+
+    /* Sub oscillator */
+    var osc2 = ctx.createOscillator();
+    osc2.type = 'sine';
+    osc2.frequency.value = baseFreq * 0.5;
+
+    /* LFO for tremolo */
+    var lfo = ctx.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.value = 2 + (tempo / 50);
+    var lfoGain = ctx.createGain();
+    lfoGain.gain.value = 0.3;
+
+    /* Filter */
+    var filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 400 + mood * 10 + energy * 5;
+    filter.Q.value = 2 + (mood / 25);
+
+    /* Gain */
+    var gain = ctx.createGain();
+    gain.gain.value = vol;
+
+    /* Routing */
+    osc1.connect(filter);
+    osc2.connect(filter);
+    filter.connect(gain);
+    lfo.connect(lfoGain);
+    lfoGain.connect(gain.gain);
+    gain.connect(ctx.destination);
+
+    osc1.start();
+    osc2.start();
+    lfo.start();
+
+    oscillators = [osc1, osc2, lfo, lfoGain, filter, gain];
+
+    /* Also play demo MP3 if available */
+    var demoEl = document.getElementById('demoAudio');
+    if(demoEl && demoEl.src){
+      demoEl.currentTime = 0;
+      demoEl.play().catch(function(){});
+    }
+
+    isJamming = true;
+    progressPhase = 0;
+    btnJam.classList.add('jamming');
+    btnJam.style.borderColor = skin.color;
+    btnJam.style.boxShadow = '0 0 20px '+skin.glow;
+    btnJam.querySelector('.jam-dot').style.background = skin.color;
+    btnJam.querySelector('.jam-dot').style.boxShadow = '0 0 10px '+skin.glow;
+  }
+
+  function stopSynth(){
+    oscillators.forEach(function(node){
+      try{ node.stop(); }catch(e){}
+      try{ node.disconnect(); }catch(e){}
+    });
+    oscillators = [];
+
+    var demoEl = document.getElementById('demoAudio');
+    if(demoEl) demoEl.pause();
+
+    isJamming = false;
+    btnJam.classList.remove('jamming');
+    btnJam.style.borderColor = '';
+    btnJam.style.boxShadow = '';
+    btnJam.querySelector('.jam-dot').style.background = '';
+    btnJam.querySelector('.jam-dot').style.boxShadow = '';
+  }
+
+  btnJam.addEventListener('click', function(){
+    if(isJamming){ stopSynth(); }
+    else { startSynth(); }
+  });
+
+  /* Hero play button */
+  var heroBtn = document.getElementById('playHero');
+  if(heroBtn){
+    heroBtn.addEventListener('click', function(){
+      var demoEl = document.getElementById('demoAudio');
+      if(demoEl){
+        if(demoEl.paused){
+          demoEl.play().catch(function(){});
         } else {
-          initDiyPattern(p.data);
+          demoEl.pause();
         }
-        highlightPreset(idx);
+      }
+    });
+  }
+
+  /* ---------- Screen Icon Clicks ---------- */
+  var iconWave = document.getElementById('siWave');
+  var iconFx   = document.getElementById('siFx');
+  var iconFile = document.getElementById('siFile');
+  var iconSys  = document.getElementById('siSys');
+
+  [iconWave, iconFx, iconFile, iconSys].forEach(function(ic){
+    if(!ic) return;
+    ic.addEventListener('click', function(){
+      document.querySelectorAll('.scr-icons .si').forEach(function(s){
+        s.classList.remove('on');
+        s.style.color = '';
+        s.style.textShadow = '';
       });
-      presetBtns.push(btn);
-      presetRow.appendChild(btn);
+      ic.classList.add('on');
+      var skin = SKINS[currentSkin];
+      ic.style.color = skin.color;
+      ic.style.textShadow = '0 0 6px '+skin.glow;
     });
-    diyPanel.appendChild(presetRow);
+  });
 
-    const hint = document.createElement("div");
-    hint.style.cssText = "font-size:10px;color:var(--muted);opacity:.5;margin-top:4px;";
-    hint.textContent = "Drag on waveform to draw your pattern";
-    diyPanel.appendChild(hint);
-
-    studioScreen.appendChild(diyPanel);
-  }
-
-  function highlightPreset(idx){
-    presetBtns.forEach((b, i) => b.classList.toggle("selected", i === idx));
-  }
-
-  // Draw on waveform
-  let drawing = false;
-  if(waveEl){
-    waveEl.style.cursor = "crosshair";
-    const drawAt = (e) => {
-      if(!diyMode || !diyPattern) return;
-      const rect = waveEl.getBoundingClientRect();
-      const x = clamp((e.clientX - rect.left) / rect.width, 0, 0.999);
-      const y = clamp(1 - (e.clientY - rect.top) / rect.height, 0.05, 1);
-      const idx = Math.floor(x * BAR_COUNT);
-      diyPattern[idx] = y;
-      if(idx > 0) diyPattern[idx-1] = diyPattern[idx-1]*.4 + y*.6;
-      if(idx < BAR_COUNT-1) diyPattern[idx+1] = diyPattern[idx+1]*.4 + y*.6;
-      diyActivePreset = -1;
-      highlightPreset(-1);
-    };
-    waveEl.addEventListener("pointerdown", (e) => { drawing = true; drawAt(e); waveEl.setPointerCapture(e.pointerId); });
-    waveEl.addEventListener("pointermove", (e) => { if(drawing) drawAt(e); });
-    waveEl.addEventListener("pointerup", () => { drawing = false; });
-    waveEl.addEventListener("pointercancel", () => { drawing = false; });
-  }
-
-  // Animation loop
-  function animateWaveform(){
-    const energy = state.energy / 100;
-    const mood = state.mood / 100;
-    const vibeIdx = Math.min(4, Math.floor(state.vibe / 100 * 5));
-
-    phase += (1/60) * bpm() / 60 * Math.PI * 2 * 0.5;
-    const pal = getPalette();
-
-    for(let i = 0; i < BAR_COUNT; i++){
-      const norm = i / (BAR_COUNT - 1);
-      let h;
-
-      if(diyMode && diyPattern){
-        const base = diyPattern[i];
-        const beat = Math.sin(phase + i * 0.3) * 0.15 * energy;
-        const mw = Math.sin(phase * 1.7 + i * 0.5) * 0.06 * mood;
-        h = clamp(base + beat + mw, 0.04, 1);
-      } else {
-        const w1 = Math.sin(phase + norm * Math.PI * 2) * 0.3;
-        const w2 = Math.sin(phase * 2 + norm * Math.PI * 4) * 0.15 * energy;
-        const w3 = Math.cos(phase * 0.7 + norm * Math.PI * 3) * 0.12 * mood;
-        const bp = Math.pow(Math.abs(Math.sin(phase)), 4) * 0.2 * energy;
-        const ns = (Math.random() - 0.5) * 0.08 * energy;
-        let sm = 0;
-        switch(vibeIdx){
-          case 0: sm = ((phase*3+norm*10)%2-1)*0.15*energy; break;
-          case 1: sm = Math.sin(phase*0.5+norm*Math.PI*6)*0.08; break;
-          case 2: sm = Math.sin(phase*0.3+norm*Math.PI*1.5)*0.18; break;
-          case 3: sm = Math.round(Math.sin(phase+norm*Math.PI*4)*2)/2*0.12; break;
-          case 4: sm = Math.sin(phase*0.2+norm*Math.PI)*0.25; break;
-        }
-        h = clamp(0.35 + w1 + w2 + w3 + bp + ns + sm, 0.04, 1);
-      }
-
-      const px = Math.max(4, h * 230);
-      bars[i].style.height = px + "px";
-      bars[i].style.background = `linear-gradient(180deg, ${pal.from}, ${pal.to})`;
-      bars[i].style.boxShadow = h > 0.7 ? `0 0 ${8+h*14}px ${pal.glow}` : "none";
-    }
-    requestAnimationFrame(animateWaveform);
-  }
-
-  /* ═══════════════════════════════
-     JAM BUTTON
-     ═══════════════════════════════ */
-  const jamBtn = el("playStudio");
-
-  /* ═══════════════════════════════
-     WEB AUDIO — synth
-     ═══════════════════════════════ */
-  let actx = null, audioOn = false, timer = null, step = 0, nt = 0;
-  const PENT = [0,3,5,7,10];
-
-  function ctx(){ if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)(); return actx; }
-
-  function kick(t){
-    const o=actx.createOscillator(),g=actx.createGain();
-    o.frequency.setValueAtTime(140,t);o.frequency.exponentialRampToValueAtTime(45,t+.12);
-    g.gain.setValueAtTime(.9,t);g.gain.exponentialRampToValueAtTime(.001,t+.18);
-    o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.2);
-  }
-  function hat(t,v){
-    const o=actx.createOscillator(),g=actx.createGain(),f=actx.createBiquadFilter();
-    o.type="square";o.frequency.value=8000;f.type="highpass";f.frequency.value=6000;
-    g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+.04);
-    o.connect(f);f.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.05);
-  }
-  function bass(t,s,e){
-    const o=actx.createOscillator(),g=actx.createGain(),f=actx.createBiquadFilter();
-    o.type="triangle";o.frequency.value=55*Math.pow(2,s/12);
-    f.type="lowpass";f.frequency.value=300+(state.vibe+state.mood)/200*5000;
-    g.gain.setValueAtTime(e,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);
-    o.connect(f);f.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+.4);
-  }
-
-  function sched(){
-    const spb = 60/bpm()/2, dens = state.energy/100;
-    while(nt < actx.currentTime+.15){
-      const s = step%8;
-      if(s===0||s===4) kick(nt);
-      if(s%2===1 && Math.random()<.4+dens*.5) hat(nt,.05+dens*.1);
-      if(state.energy>30 && s%2===0) bass(nt,PENT[Math.floor(Math.random()*PENT.length)]-12,.2+dens*.4);
-      nt+=spb; step++;
-    }
-    timer = setTimeout(sched, 40);
-  }
-
-  if(jamBtn){
-    jamBtn.addEventListener("click", () => {
-      ctx(); if(actx.state==="suspended") actx.resume();
-      if(audioOn){
-        audioOn=false; clearTimeout(timer);
-        jamBtn.classList.remove("jamming");
-        jamBtn.querySelector(".jam-text").textContent = "JAM";
-      } else {
-        audioOn=true; step=0; nt=actx.currentTime+.05; sched();
-        jamBtn.classList.add("jamming");
-        jamBtn.querySelector(".jam-text").textContent = "STOP";
-      }
-    });
-  }
-
-  /* ═══════════════════════════════
-     INIT
-     ═══════════════════════════════ */
-  createKnob("knobVibe",   "vibe",   { sensitivity: 0.8 });
-  createKnob("knobMood",   "mood",   { sensitivity: 0.8 });
-  createKnob("knobPulse",  "pulse",  { sensitivity: 0.6 });
-  createFader("faderEnergy","energy");
-  buildDiyPanel();
-  refreshParams();
-  requestAnimationFrame(animateWaveform);
-
-  // Also handle the hero play button for demo audio
-  const demoAudio = el("demoAudio");
-  const playHero = el("playHero");
-  if(playHero && demoAudio){
-    playHero.addEventListener("click", async () => {
-      try {
-        if(demoAudio.paused) await demoAudio.play();
-        else demoAudio.pause();
-      } catch{ demoAudio.controls = true; }
-    });
-  }
+  /* ---------- Init ---------- */
+  applySkin('lofi');
+  updateBpm();
 
 })();
