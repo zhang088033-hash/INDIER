@@ -36,7 +36,7 @@
           </div>
         </div>
         <figure class="hero-product">
-          <img src="skins.png" alt="INDIER DIY skin themes and modular music console">
+          <img src="hero.jpeg" alt="INDIER Creator modular music console">
         </figure>
       </div>
       <div class="audio-dock" aria-label="Demo player">
@@ -62,7 +62,7 @@
         <h2>Snap together. Pull apart. Build your rig.</h2>
       </div>
       <figure class="product-wall">
-        <img src="skins.png" alt="INDIER Core, Spin, Slide modules with DIY skin screens">
+        <img src="modules.jpeg" alt="INDIER Core, Spin, Slide, Key modules">
       </figure>
       <div class="module-specs">
         <article>
@@ -121,15 +121,18 @@
       </div>
     </section>
 
-    <!-- ===== Virtual INDIER Device ===== -->
+    <!-- ===== Virtual INDIER Device — 4-Module Layout ===== -->
     <section id="create" class="section studio-section">
       <div class="studio-header">
         <p class="eyebrow">Try It Now</p>
-        <h2>Turn knobs. Watch it respond. Press JAM.</h2>
+        <h2>Turn knobs. Slide faders. Press JAM.</h2>
       </div>
 
-      <div class="indier-device" id="indierDevice">
-        <div class="device-body">
+      <div class="indier-rig" id="indierRig">
+
+        <!-- Module 1: Core Display -->
+        <div class="mod mod-core">
+          <div class="mod-label">CORE</div>
           <div class="device-screen" id="deviceScreen">
             <div class="scr-top">
               <span class="scr-label" id="scrLabel">Looper</span>
@@ -149,38 +152,123 @@
               <span class="si" id="siSys">SYS</span>
             </div>
           </div>
-          <div class="device-knobs">
+          <div class="mod-mini-knobs">
+            <div class="mini-knob-unit" id="knobStyle" data-value="50">
+              <div class="mini-knob-outer"><div class="mini-knob-inner"><div class="mini-knob-indicator"></div></div></div>
+              <span class="mini-knob-name">STYLE</span>
+            </div>
+            <div class="mini-knob-unit" id="knobTone" data-value="50">
+              <div class="mini-knob-outer"><div class="mini-knob-inner"><div class="mini-knob-indicator"></div></div></div>
+              <span class="mini-knob-name">TONE</span>
+            </div>
+          </div>
+          <div class="mod-pad-row">
+            <button class="pad-btn" data-pad="1">1</button>
+            <button class="pad-btn" data-pad="2">2</button>
+            <button class="pad-btn" data-pad="3">3</button>
+            <button class="pad-btn" data-pad="4">4</button>
+          </div>
+        </div>
+
+        <!-- Snap Connector 1-2 -->
+        <div class="snap-connector"><div class="snap-dot"></div><div class="snap-dot"></div><div class="snap-dot"></div></div>
+
+        <!-- Module 2: Spin (Knobs) -->
+        <div class="mod mod-spin">
+          <div class="mod-label">SPIN</div>
+          <div class="knob-grid">
             <div class="knob-unit" id="knobVibe" data-value="50">
-              <div class="knob-outer"><div class="knob-inner"><div class="knob-indicator"></div></div></div>
+              <div class="knob-outer"><div class="knob-ring"></div><div class="knob-inner"><div class="knob-indicator"></div></div></div>
               <span class="knob-name">VIBE</span>
             </div>
             <div class="knob-unit" id="knobMood" data-value="50">
-              <div class="knob-outer"><div class="knob-inner"><div class="knob-indicator"></div></div></div>
+              <div class="knob-outer"><div class="knob-ring"></div><div class="knob-inner"><div class="knob-indicator"></div></div></div>
               <span class="knob-name">MOOD</span>
             </div>
             <div class="knob-unit" id="knobEnergy" data-value="50">
-              <div class="knob-outer"><div class="knob-inner"><div class="knob-indicator"></div></div></div>
+              <div class="knob-outer"><div class="knob-ring"></div><div class="knob-inner"><div class="knob-indicator"></div></div></div>
               <span class="knob-name">ENERGY</span>
             </div>
             <div class="knob-unit" id="knobTempo" data-value="50">
-              <div class="knob-outer"><div class="knob-inner"><div class="knob-indicator"></div></div></div>
+              <div class="knob-outer"><div class="knob-ring"></div><div class="knob-inner"><div class="knob-indicator"></div></div></div>
               <span class="knob-name">TEMPO</span>
             </div>
           </div>
-          <button class="device-jam" id="btnJam" type="button">
-            <span class="jam-dot"></span>
-            <span class="jam-label">JAM</span>
-          </button>
         </div>
-        <div class="skin-bar">
-          <div class="skin-title">CHOOSE YOUR <span class="skin-grad">SKIN</span></div>
-          <div class="skin-row">
-            <button class="skin-btn active" data-skin="lofi">Lo-Fi</button>
-            <button class="skin-btn" data-skin="synthwave">Synthwave</button>
-            <button class="skin-btn" data-skin="hiphop">HIP-HOP</button>
+
+        <!-- Snap Connector 2-3 -->
+        <div class="snap-connector"><div class="snap-dot"></div><div class="snap-dot"></div><div class="snap-dot"></div></div>
+
+        <!-- Module 3: Slide (Faders) -->
+        <div class="mod mod-slide">
+          <div class="mod-label">SLIDE</div>
+          <div class="fader-grid">
+            <div class="fader-unit" id="faderMix" data-value="50">
+              <div class="fader-track"><div class="fader-led" id="faderLedMix"></div><div class="fader-cap" id="faderCapMix"></div></div>
+              <span class="fader-name">MIX</span>
+            </div>
+            <div class="fader-unit" id="faderBass" data-value="60">
+              <div class="fader-track"><div class="fader-led" id="faderLedBass"></div><div class="fader-cap" id="faderCapBass"></div></div>
+              <span class="fader-name">BASS</span>
+            </div>
+            <div class="fader-unit" id="faderMid" data-value="45">
+              <div class="fader-track"><div class="fader-led" id="faderLedMid"></div><div class="fader-cap" id="faderCapMid"></div></div>
+              <span class="fader-name">MID</span>
+            </div>
+            <div class="fader-unit" id="faderHigh" data-value="55">
+              <div class="fader-track"><div class="fader-led" id="faderLedHigh"></div><div class="fader-cap" id="faderCapHigh"></div></div>
+              <span class="fader-name">HIGH</span>
+            </div>
           </div>
-          <div class="skin-sub">DIY THEMES. YOUR SOUND, YOUR <span class="skin-grad2">STYLE</span>.</div>
         </div>
+
+        <!-- Snap Connector 3-4 -->
+        <div class="snap-connector"><div class="snap-dot"></div><div class="snap-dot"></div><div class="snap-dot"></div></div>
+
+        <!-- Module 4: Key (Buttons) -->
+        <div class="mod mod-key">
+          <div class="mod-label">KEY</div>
+          <div class="key-grid">
+            <button class="mech-key key-jam" id="btnJam" type="button">
+              <span class="key-cap">JAM</span>
+              <span class="key-led"></span>
+            </button>
+            <button class="mech-key" id="btnRetry" type="button">
+              <span class="key-cap">RETRY</span>
+              <span class="key-led"></span>
+            </button>
+            <button class="mech-key" id="btnRelease" type="button">
+              <span class="key-cap">RELEASE</span>
+              <span class="key-led"></span>
+            </button>
+            <button class="mech-key" id="btnLoop" type="button">
+              <span class="key-cap">LOOP</span>
+              <span class="key-led"></span>
+            </button>
+          </div>
+          <div class="mod-mini-knobs key-knobs">
+            <div class="mini-knob-unit" id="knobFine1" data-value="50">
+              <div class="mini-knob-outer"><div class="mini-knob-inner"><div class="mini-knob-indicator"></div></div></div>
+              <span class="mini-knob-name">FX</span>
+            </div>
+            <div class="mini-knob-unit" id="knobFine2" data-value="50">
+              <div class="mini-knob-outer"><div class="mini-knob-inner"><div class="mini-knob-indicator"></div></div></div>
+              <span class="mini-knob-name">DRY</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Skin Bar -->
+      <div class="skin-bar">
+        <div class="skin-title">CHOOSE YOUR <span class="skin-grad">SKIN</span></div>
+        <div class="skin-row">
+          <button class="skin-btn active" data-skin="lofi">Lo-Fi</button>
+          <button class="skin-btn" data-skin="synthwave">Synthwave</button>
+          <button class="skin-btn" data-skin="hiphop">HIP-HOP</button>
+        </div>
+        <div class="skin-sub">DIY THEMES. YOUR SOUND, YOUR <span class="skin-grad2">STYLE</span>.</div>
       </div>
 
       <div class="studio-flow">
@@ -216,7 +304,7 @@
         <h2>Colors can have personality, but the finish must be unified.</h2>
       </div>
       <figure class="finish-image">
-        <img src="skins.png" alt="INDIER DIY skins for Lo-Fi, Synthwave and HIP-HOP">
+        <img src="colors.jpeg" alt="INDIER modular controllers in different colors">
       </figure>
     </section>
 
