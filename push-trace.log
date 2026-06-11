@@ -1,0 +1,57 @@
+warning: unknown trace value for 'GIT_TRACE': 1 
+         If you want to trace into a file, then please set GIT_TRACE
+         to an absolute pathname (starting with /)
+warning: unknown trace value for 'GIT_TRACE': 1 
+         If you want to trace into a file, then please set GIT_TRACE
+         to an absolute pathname (starting with /)
+warning: unknown trace value for 'GIT_TRACE': 1 
+         If you want to trace into a file, then please set GIT_TRACE
+         to an absolute pathname (starting with /)
+22:16:24.093718 http.c:930              == Info: Could not find host github.com in the .netrc file; using defaults
+22:16:24.109291 http.c:930              == Info: Host github.com:443 was resolved.
+22:16:24.109291 http.c:930              == Info: IPv6: (none)
+22:16:24.109822 http.c:930              == Info: IPv4: 198.18.0.186
+22:16:24.109822 http.c:930              == Info:   Trying 198.18.0.186:443...
+22:16:24.110357 http.c:930              == Info: schannel: disabled automatic use of client certificate
+22:16:24.111966 http.c:930              == Info: ALPN: curl offers http/1.1
+22:16:28.158241 http.c:930              == Info: ALPN: server accepted http/1.1
+22:16:28.159247 http.c:930              == Info: Established connection to github.com (198.18.0.186 port 443) from 198.18.0.1 port 60002 
+22:16:28.159247 http.c:930              == Info: using HTTP/1.x
+22:16:28.159247 http.c:877              => Send header, 0000000205 bytes (0x000000cd)
+22:16:28.159247 http.c:889              => Send header: GET /zhang088033-hash/INDIER.git/info/refs?service=git-receive-pack HTTP/1.1
+22:16:28.159247 http.c:889              => Send header: Host: github.com
+22:16:28.159247 http.c:889              => Send header: User-Agent: git/2.53.0.windows.2
+22:16:28.159247 http.c:889              => Send header: Accept: */*
+22:16:28.159247 http.c:889              => Send header: Accept-Encoding: deflate, gzip, br, zstd
+22:16:28.159247 http.c:889              => Send header: Pragma: no-cache
+22:16:28.159247 http.c:889              => Send header:
+22:16:28.159247 http.c:930              == Info: Request completely sent off
+22:16:28.290589 http.c:930              == Info: schannel: remote party requests renegotiation
+22:16:28.290589 http.c:930              == Info: schannel: renegotiating SSL/TLS connection
+22:16:28.291311 http.c:930              == Info: schannel: SSL/TLS connection renegotiated
+22:16:28.291311 http.c:930              == Info: schannel: remote party requests renegotiation
+22:16:28.291311 http.c:930              == Info: schannel: renegotiating SSL/TLS connection
+22:16:28.291858 http.c:930              == Info: schannel: SSL/TLS connection renegotiated
+22:16:28.495379 http.c:877              <= Recv header, 0000000027 bytes (0x0000001b)
+22:16:28.495379 http.c:889              <= Recv header: HTTP/1.1 401 Unauthorized
+22:16:28.495379 http.c:877              <= Recv header, 0000000026 bytes (0x0000001a)
+22:16:28.495379 http.c:889              <= Recv header: Server: GitHub-Babel/3.0
+22:16:28.495379 http.c:877              <= Recv header, 0000000054 bytes (0x00000036)
+22:16:28.495379 http.c:889              <= Recv header: Content-Security-Policy: default-src 'none'; sandbox
+22:16:28.495379 http.c:877              <= Recv header, 0000000041 bytes (0x00000029)
+22:16:28.495379 http.c:889              <= Recv header: Content-Type: text/plain; charset=UTF-8
+22:16:28.495379 http.c:877              <= Recv header, 0000000040 bytes (0x00000028)
+22:16:28.495379 http.c:889              <= Recv header: www-authenticate: Basic realm="GitHub"
+22:16:28.495379 http.c:877              <= Recv header, 0000000020 bytes (0x00000014)
+22:16:28.495379 http.c:889              <= Recv header: Content-Length: 26
+22:16:28.495379 http.c:877              <= Recv header, 0000000037 bytes (0x00000025)
+22:16:28.495884 http.c:889              <= Recv header: Date: Wed, 10 Jun 2026 14:16:28 GMT
+22:16:28.495884 http.c:877              <= Recv header, 0000000023 bytes (0x00000017)
+22:16:28.495884 http.c:889              <= Recv header: X-Frame-Options: DENY
+22:16:28.495884 http.c:877              <= Recv header, 0000000073 bytes (0x00000049)
+22:16:28.495884 http.c:889              <= Recv header: Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+22:16:28.495884 http.c:877              <= Recv header, 0000000058 bytes (0x0000003a)
+22:16:28.495884 http.c:889              <= Recv header: X-GitHub-Request-Id: AC64:B6CD4:1C030D0:2182C68:6A2971BC
+22:16:28.495884 http.c:877              <= Recv header, 0000000002 bytes (0x00000002)
+22:16:28.495884 http.c:889              <= Recv header:
+22:16:28.495884 http.c:930              == Info: Connection #0 to host github.com:443 left intact

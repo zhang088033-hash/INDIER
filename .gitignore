@@ -3,4 +3,9 @@ deploy.bat
 deploy-v2.bat
 deploy-v3.bat
 serve.js
-demos/
+do-push.bat
+push-log.txt
+push-result.log
+push-result2.log
+push-trace.log
+push.ps1

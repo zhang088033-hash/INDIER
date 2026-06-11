@@ -1,0 +1,7 @@
+﻿git : Pushing to https://github.com/zhang088033-hash/INDIER.git
+所在位置 C:\Users\zhang\indier-site\push.ps1:1 字符: 32
++ ... d C:\Users\zhang\indier-site; git push -f -v origin main 2>&1 | Out-F ...
++                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Pushing to http...hash/INDIER.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
